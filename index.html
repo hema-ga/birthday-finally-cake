@@ -98,7 +98,7 @@ function spectralEnergy(){
 
 function blowThreshold(){
   // Adaptive threshold: loud laptop mics need a stronger blow, quiet mics stay sensitive.
-  return Math.max(0.035, ambient*1.5 + 0.010);
+  return Math.max(0.020, ambient*1.05 + 0.005);
 }
 
 function animateFlames(r,threshold){
@@ -153,11 +153,11 @@ function detect(){
   // Use both amplitude and broad high-frequency activity; this avoids triggering from silence.
   const hf=spectralEnergy();
   const strongEnough=r>threshold;
-  const windLike=hf>0.0015;
+  const windLike=hf>0.0007;
   animateFlames(r,threshold);
   if(strongEnough && windLike){
     if(!blowStart)blowStart=performance.now();
-    if(performance.now()-blowStart>=100){blowOutCandles();return;}
+    if(performance.now()-blowStart>=50){blowOutCandles();return;}
   }else{
     blowStart=0;
   }
